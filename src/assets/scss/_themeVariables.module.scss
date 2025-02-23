@@ -1,0 +1,69 @@
+$white: #ffffff;
+$surfaceBg: #EDF0F3;
+$themeRadius: 3px;
+$themeBoxShadow:0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+//error
+$error:#ff0000;
+
+// primary 
+// $primary: #002169;
+$primary: #e4e4e4;
+
+// secondary 
+$secondary: #d6d6d6;
+
+// warning
+$warning: #ff5a00;
+
+// success
+$success: #7bd574;
+
+// info
+$info: #00ddf9;
+
+// text
+$textDark: #242424;
+$textPrimary: #023091;
+$textSecondary: #474747;
+
+// table
+$lightGray:#EFF2F5;
+$tableStriped:rgba(237, 240, 243, 0.5);
+
+
+// ==============================|| JAVASCRIPT ||============================== //
+
+:export {
+  white: $white;
+  surfaceBg: $surfaceBg;
+  themeRadius: $themeRadius;
+  themeBoxShadow: $themeBoxShadow;
+
+  //error
+  error: $error;
+
+  // primary 
+  primary: $primary;
+
+  // secondary 
+  secondary: $secondary;
+
+  // warning
+  warning: $warning;
+
+  // success
+  success: $success;
+
+  // info
+  info: $info;
+
+  // text
+  textDark: $textDark;
+  textSecondary: $textSecondary;
+  textPrimary: $textPrimary;
+
+  // table
+  lightGray:$lightGray;
+  tableStriped:$tableStriped;
+}

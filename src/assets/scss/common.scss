@@ -1,0 +1,44 @@
+.navbard-main-menu {
+    display: flex;
+    justify-content: space-between;
+  }
+  .navbar-side-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 24px;
+  }
+  .nav-container {
+    padding: 0 24px 0 0;
+    height: 72px;
+  }
+  
+  .error-msg {
+    color: #ff0000;
+    font-size: 12px;
+  }
+  
+  .loader {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    width: "100vw";
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1300;
+  }
+  
+  .input-label {
+    color: #023091;
+    margin-bottom: 8px;
+  }
+  
+  .filter-menu-item {
+    width: 300px;
+    padding: 10px 20px;
+  }
+  
