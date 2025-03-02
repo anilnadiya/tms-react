@@ -1,8 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { setLoading } from "../../Slice/loading/loadingSlice";
 import authApi from "../../authApi";
-import { getSingleClient, getSingleClientPrice, setChildPriceList, setClientAccount, setClientContact, setClientContactList, setClientLoginDetailList, setClientNumber, setClientPayment, setClientPaymentList, setClients, setClientStatus, setClientSteppers, setCountries, setCustomerPriceList, setLanguagesDropdown, setLogs, setMasterPriceList, setNumber, setSingleClientAccount, setSpecializationdDropdown, setTaxdDropdown, setViewDirectContact, setViewDirectData } from "../../Slice/ClientModule/ClientSlice";
+import { getSingleClient, getSingleClientPrice, setChildPriceList, setClientAccount, setClientContact, setClientContactList, setClientLoginDetailList, setClientNumber, setClientPayment, setClientPaymentList, setClients, setClientStatus, setClientSteppers, setCountries, setCustomerPriceList, setLanguagesDropdown, setLogs, setMasterPriceList, setNumber, setSingleClientAccount, setSpecializationdDropdown, setTaxdDropdown, setViewDirectContact, setViewDirectData, setUserManager, setWorkType, setScoopDetail, setAllLanguages, setcompanyContactList, setFilterListingReport, setJobSummeryContact, setJobSummeryResource, setJobStatus } from "../../Slice/ClientModule/ClientSlice";
 import { showSnackbar } from "../../Slice/snackbar/snackbarSlice";
+import axios from "axios";
 
 
 // ----------------- Account ---------------------
@@ -239,6 +240,126 @@ export const ClientAccountList = createAsyncThunk(
         const response = await authApi.get(`/getCountry`);
         if (response?.status === 200) {
           dispatch(setCountries(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const UserManager = createAsyncThunk(
+    "userManager/2",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/userManager/2`);
+        if (response?.status === 200) {
+          dispatch(setUserManager(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const WorkType = createAsyncThunk(
+    "prtypeactive",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/prtypeactive`);
+        if (response?.status === 200) {
+          dispatch(setWorkType(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const ScoopDetails = createAsyncThunk(
+    "scoopdetailItemStatusGet",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/scoopdetailItemStatusGet`);
+        if (response?.status === 200) {
+          dispatch(setScoopDetail(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const JobSummeryContact = createAsyncThunk(
+    "JobsummerycontactGet",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/JobsummerycontactGet`);
+        if (response?.status === 200) {
+          dispatch(setJobSummeryContact(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const JobSummeryResource = createAsyncThunk(
+    "jobdetailresourceGet",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/jobdetailresourceGet`);
+        if (response?.status === 200) {
+          dispatch(setJobSummeryResource(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const JobStatusdetail = createAsyncThunk(
+    "jobdetailItemStatusGet",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/jobdetailItemStatusGet`);
+        if (response?.status === 200) {
+          dispatch(setJobStatus(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const AllLanguages = createAsyncThunk(
+    "allLanguages",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/allLanguages`);
+        if (response?.status === 200) {
+          dispatch(setAllLanguages(response?.data));
+          dispatch(setLoading(false));
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+  );
+  export const ClientCompanysContactList = createAsyncThunk(
+    "contact",
+    async (request, { dispatch }) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await authApi.get(`/contact/${request}`);
+        if (response?.status === 200) {
+          dispatch(setcompanyContactList(response?.data));
           dispatch(setLoading(false));
         }
       } catch (error) {

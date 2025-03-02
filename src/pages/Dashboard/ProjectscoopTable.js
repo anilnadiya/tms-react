@@ -1,29 +1,30 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { JobList } from "../../redux/Thunk/DashboardModule/DashboardThunk";
+import { ProjectList } from "../../redux/Thunk/DashboardModule/DashboardThunk";
 import {
   Box,
   Tabs,
   Tab,
   TextField,
-  Grid,
   Paper,
+  Grid,
 } from "@mui/material";
 import debounce from "lodash/debounce";
 import GenericTable from "../../Components/Ui_elements/GenericTable";
 
-const JobsTable = () => {
-  const { jobsSummury, loading } = useSelector(
+const ProjectscoopTable = () => {
+  const { clients, loading } = useSelector(
     (state) => state.root.DashboardModule
   );
+  console.log('clients', clients);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(10);
-  const [activeTab, setActiveTab] = useState("Requested");
-  const [order, setOrder] = useState({ column: "jobNumber", dir: "asc" });
+  const [activeTab, setActiveTab] = useState("tab-due-today");
+  const [order, setOrder] = useState({ column: "orderNumber", dir: "asc" });
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
 
@@ -38,8 +39,8 @@ const JobsTable = () => {
         sortOrder: sortOrder.dir,
         search: searchText,
       };
-      console.log("Dispatching JobList with payload:", payload);
-      dispatch(JobList(payload));
+      console.log("Dispatching ProjectList with payload:", payload);
+      dispatch(ProjectList(payload));
     },
     [dispatch, activeTab]
   );
@@ -77,47 +78,65 @@ const JobsTable = () => {
   // Columns definition for GenericTable
   const columns = [
     { name: "rowNumber", label: "#" },
-    { name: "jobNumber", label: "Job Number" },
-    { name: "scoopNumber", label: "Scoop Number" },
-    { name: "clientName", label: "Client" },
-    { name: "languagePair", label: "Language Pair" },
-    { name: "jobProjectManager", label: "Project Manager" },
-    { name: "jobResource", label: "Resource" },
-    { name: "jobType", label: "Job Type" },
-    { name: "jobDuedate", label: "Job Due Date" },
-    { name: "projectDuedate", label: "Project Due Date" },
-    { name: "jobStatus", label: "Status" },
+    { name: "orderNumber", label: "Project Number" },
+    { name: "clientName", label: "Customer" },
+    { name: "languages", label: "Languages" },
+    { name: "deadline", label: "Deadline" },
+    { name: "pm_fullName", label: "Project Manager" },
+    { name: "qa_fullName", label: "QA Specialist" },
+    { name: "linguist", label: "Linguist" },
+    {
+      name: "comment",
+      label: "Comment",
+      renderCell: (params) => (
+        <i
+          style={{ color: params.commentColor }}
+          className={`fa fa-commenting-o fa-2x cmtclr${params.key}`}
+        ></i>
+      ),
+    },
+    { name: "scoopStatus", label: "Status" },
+    { name: "attached_workflow", label: "Job Type" },
+    { name: "job_d_date", label: "Job DL" },
+    { name: "project_volume", label: "Project Volume" },
+    { name: "total_price", label: "Price" },
+    { name: "po_number", label: "PO Number" },
+    { name: "projectNumber", label: "Project Name" },
   ];
 
   // Data mapping
-  const data = jobsSummury?.data?.map((item, index) => ({
-    id: item.itemId || `${index}`,
+  const data = clients?.data?.map((item, index) => ({
+    id: item.itemId,
+    key: item.itemId, // Used in renderCell for comment
     rowNumber: index + 1 + page * perPage,
-    jobNumber: item.po_number || "-",
-    scoopNumber: item.proj_scoop_no || "-",
-    clientName: item.Client || item.contactName || "-",
-    languagePair: item.item_source_lang && item.item_target_lang
-      ? `${item.item_source_lang.sourceLang} → ${item.item_target_lang.sourceLang}`
+    orderNumber: item.orderNumber || "-",
+    clientName: item.contactName || "-",
+    languages: item.itemsSourceLang && item.itemsTargetLang
+      ? `${item.itemsSourceLang.sourceLang} → ${item.itemsTargetLang.sourceLang}`
       : "-",
-    jobProjectManager: item.contact_person || item.pm_fullName || "-",
-    jobResource: item.resource || item.jobLinguist?.map((l) => l.vUserName).join(", ") || "-",
-    jobType: item.job_type_name || item.attached_workflow || "-",
-    jobDuedate: item.due_date && item.due_date !== "0000-00-00 00:00:00"
-      ? item.due_date
+    deadline: item.itemDuedate || "-",
+    pm_fullName: item.pm_fullName || "-",
+    qa_fullName: item.qa_fullName || "-",
+    linguist: item.jobLinguist?.map((l) => l.vUserName).join(", ") || "-",
+    commentColor: item.comment, // For renderCell
+    scoopStatus: item.itemStatus || "-",
+    attached_workflow: item.attached_workflow || "-",
+    job_d_date: item.linguistDueDate?.map((d) => d.job_d_date).join(", ") || "-",
+    project_volume: item.project_volume || "-",
+    total_price: item.totalAmount && item.price_currency
+      ? `${item.totalAmount} ${item.price_currency}`
       : "-",
-    projectDuedate: item.item_due_date && item.item_due_date !== "0000-00-00 00:00:00"
-      ? item.item_due_date
-      : "-",
-    jobStatus: item.item_status || item.scoopStatus || "-",
+    po_number: item.itemPonumber || "-",
+    projectNumber: item.scoopName || "-",
   })) || [];
 
   // Options for GenericTable
   const optionsProps = {
     serverSide: true,
-    count: jobsSummury?.totalPages * perPage || 0,
+    count: clients?.totalPages * perPage || 0,
     page,
     rowsPerPage: perPage,
-    rowsPerPageOptions: [10, 25, 50, 100], // Match AngularJS options
+    rowsPerPageOptions: [10, 20, 50],
     onChangePage: (newPage) => setPage(newPage),
     onChangeRowsPerPage: (newSize) => {
       setPerPage(newSize);
@@ -151,11 +170,26 @@ const JobsTable = () => {
   };
 
   const tabConfig = [
-    { label: "Requested", value: "Requested" },
-    { label: "In Progress", value: "inProgress" },
-    { label: "Due Today", value: "due-today" },
-    { label: "Due Tomorrow", value: "tab-tomorrow" },
+    { label: "Due Today", value: "tab-due-today" },
+    { label: "Tomorrow", value: "tab-due-tomorrow" },
+    { label: "All Projects", value: "tab-all" },
+    { label: "My Projects", value: "tab-my-projects" },
     { label: "Overdue", value: "tab-overdue" },
+    { label: "Next Week", value: "tab-next-week" },
+    { label: "In Progress", value: "tab-in-progress" },
+    { label: "Completed", value: "tab-completed" },
+    { label: "Pending Review", value: "tab-pending-review" },
+    { label: "High Priority", value: "tab-high-priority" },
+    { label: "Low Priority", value: "tab-low-priority" },
+    { label: "On Hold", value: "tab-on-hold" },
+    { label: "Awaiting Client", value: "tab-awaiting-client" },
+    { label: "Scheduled", value: "tab-scheduled" },
+    { label: "Draft", value: "tab-draft" },
+    { label: "Canceled", value: "tab-canceled" },
+    { label: "Urgent", value: "tab-urgent" },
+    { label: "Team Assigned", value: "tab-team-assigned" },
+    { label: "QA Pending", value: "tab-qa-pending" },
+    { label: "Final Review", value: "tab-final-review" },
   ];
 
   return (
@@ -197,7 +231,7 @@ const JobsTable = () => {
           options={optionsProps}
           data={data}
           serverSide={true}
-          count={jobsSummury?.totalPages * perPage || 0}
+          count={clients?.totalPages * perPage || 0}
           onPageChange={(newPage) => setPage(newPage)}
           onPageSizeChange={(newSize) => {
             setPerPage(newSize);
@@ -215,4 +249,4 @@ const JobsTable = () => {
   );
 };
 
-export default JobsTable;
+export default ProjectscoopTable;

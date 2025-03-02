@@ -76,6 +76,7 @@ const DropdownComponent = ({
   disabledOptionText = "Select an option",
   error = false,
   isNotMandatory = false,
+  disabled=false,
   ...rest
 }) => {
   const [inputValue, setInputValue] = useState("");
@@ -98,7 +99,7 @@ const DropdownComponent = ({
 
   const filteredOptions = useMemo(() => {
     return inputValue
-      ? normalizedOptions.filter((option) =>
+      ? normalizedOptions?.filter((option) =>
           option[labelKey]?.toLowerCase()?.includes(inputValue?.toLowerCase())
         )
       : normalizedOptions;
@@ -119,6 +120,7 @@ const DropdownComponent = ({
         )}{" "}
       </FormLabel>
       <Autocomplete
+        disabled={disabled}
         options={filteredOptions}
         size="small"
         value={

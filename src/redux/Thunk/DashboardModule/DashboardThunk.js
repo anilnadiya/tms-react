@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { setLoading } from "../../Slice/loading/loadingSlice";
 import authApi from "../../authApi";
-import { setClientAccount, setClients } from "../../Slice/DashboardModule/DashboardSlice";
+import { setClientAccount, setClients, setJobs } from "../../Slice/DashboardModule/DashboardSlice";
 import { showSnackbar } from "../../Slice/snackbar/snackbarSlice";
 
 export const ProjectList = createAsyncThunk(
@@ -19,6 +19,35 @@ export const ProjectList = createAsyncThunk(
       const response = await authApi.get(url);
       if (response?.status === 200) {
         dispatch(setClients({
+          data: response?.data?.data, // Adjust based on API response structure
+          totalPages: response?.data?.totalPages, // Ensure backend sends this
+          currentPage: page,
+          tabName:tabName
+        }));
+        dispatch(setLoading(false));
+      }
+    } catch (error) {
+      console.log("Error fetching projects:", error);
+      dispatch(setLoading(false)); // Ensure loading is unset on error
+    }
+  }
+);
+
+export const JobList = createAsyncThunk(
+  "project-job",
+  async ({ page, perPage, tabName, sortColumn, sortOrder, search }, { dispatch }) => {
+    dispatch(setLoading(true));
+    try {
+      // Construct the API URL with all parameters
+      const url = `/getJobsFromTmsSummeryViewDashboard?page=${page}&perPage=${perPage}&tabName=${tabName}${
+        sortColumn ? `&sortBy=${sortColumn}` : ""
+      }${sortOrder ? `&sortOrder=${sortOrder}` : ""}${
+        search ? `&search=${encodeURIComponent(search)}` : ""
+      }`;
+      console.log("API URL:", url); // Debug log to verify URL
+      const response = await authApi.get(url);
+      if (response?.status === 200) {
+        dispatch(setJobs({
           data: response?.data?.data, // Adjust based on API response structure
           totalPages: response?.data?.totalPages, // Ensure backend sends this
           currentPage: page,

@@ -26,7 +26,15 @@ const initialState = {
     client_login_list: [],
     client_view_direct_data: [],
     client_view_direct_contact: [],
-
+    user_manager: [],
+    work_type: [],
+    scoop_detail: [],
+    all_languages:[],
+    company_client_contact:[],
+    filters_Listing: [],
+    job_summery_contact:[],
+    job_summery_resource:[],
+    job_status:[],
 }
 
 const ClientSlice = createSlice({
@@ -64,6 +72,14 @@ const ClientSlice = createSlice({
         setCountries: (state, action) => ({
             ...state,
         country: action.payload
+        }),
+        setUserManager: (state, action) => ({
+            ...state,
+        user_manager: action.payload
+        }),
+        setWorkType: (state, action) => ({
+            ...state,
+        work_type: action.payload
         }),
         setClientNumber: (state, action) => ({
             ...state,
@@ -134,9 +150,37 @@ const ClientSlice = createSlice({
             ...state,
         client_view_direct_data: action.payload
         }),
+        setScoopDetail: (state, action) => ({
+            ...state,
+        scoop_detail: action.payload
+        }),
+        setAllLanguages: (state, action) => ({
+            ...state,
+        all_languages: action.payload
+        }),
+        setcompanyContactList: (state, action) => ({
+            ...state,
+        company_client_contact: action.payload
+        }),
+        setFilterListingReport: (state, action) => ({
+            ...state,
+        filters_Listing: action.payload
+        }),
+        setJobSummeryContact: (state, action) => ({
+            ...state,
+        job_summery_contact: action.payload
+        }),
+        setJobSummeryResource: (state, action) => ({
+            ...state,
+        job_summery_resource: action.payload
+        }),
+        setJobStatus: (state, action) => ({
+            ...state,
+        job_status: action.payload
+        }),
     }
 })
 
-export const {setClientAccount, setLogs, setSingleClientAccount, setNumber, setClients, setClientSteppers, setClientStatus, setCountries, setClientNumber,setClientContact, setTaxdDropdown, setClientPayment, getSingleClient, setClientContactList, setClientPaymentList,setClientLoginDetailList, setSpecializationdDropdown,setMasterPriceList,setChildPriceList,setLanguagesDropdown,setCustomerPriceList, getSingleClientPrice, setClientLoginList, setViewDirectData, setViewDirectContact} = ClientSlice.actions
+export const {setClientAccount, setLogs, setSingleClientAccount, setNumber, setClients, setClientSteppers, setClientStatus, setCountries, setClientNumber,setClientContact, setTaxdDropdown, setClientPayment, getSingleClient, setClientContactList, setClientPaymentList,setClientLoginDetailList, setSpecializationdDropdown,setMasterPriceList,setChildPriceList,setLanguagesDropdown,setCustomerPriceList, getSingleClientPrice, setClientLoginList, setViewDirectData, setViewDirectContact, setUserManager,setWorkType,setScoopDetail, setAllLanguages,setcompanyContactList, setFilterListingReport, setJobSummeryContact,setJobSummeryResource, setJobStatus} = ClientSlice.actions
 
 export default ClientSlice.reducer;

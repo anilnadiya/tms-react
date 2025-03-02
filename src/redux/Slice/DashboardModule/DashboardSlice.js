@@ -12,6 +12,13 @@ const initialState = {
     tabName: "tab-my-projects",
     search: "", // Added search field
   },
+  jobsSummury: {
+    data: [],
+    totalPages: 1,
+    currentPage: 1,
+    tabName: "Requested",
+    search: "", // Added search field
+  },
   clientStepperData: [],
   client_status: [],
   country: [],
@@ -47,6 +54,16 @@ const DashboardSlice = createSlice({
         search: action.payload.search || state.clients.search, // Preserve or update search
       },
     }),
+    setJobs: (state, action) => ({
+      ...state,
+      jobsSummury: {
+        data: action.payload.data,
+        totalPages: action.payload.totalPages,
+        currentPage: action.payload.currentPage,
+        tabName: action.payload.tabName,
+        search: '', // Preserve or update search
+      },
+    }),
     setClientSteppers: (state, action) => ({
       ...state,
       clientStepperData: action.payload,
@@ -62,7 +79,7 @@ const DashboardSlice = createSlice({
   },
 });
 
-export const { setClientAccount, setLogs, setSingleClientAccount, setNumber, setClients, setClientSteppers, setClientStatus, setCountries } =
+export const { setClientAccount, setLogs, setSingleClientAccount, setNumber, setClients, setJobs, setClientSteppers, setClientStatus, setCountries } =
   DashboardSlice.actions;
 
 export default DashboardSlice.reducer;

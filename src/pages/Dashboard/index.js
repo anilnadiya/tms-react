@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Grid, Box, Paper, IconButton, Collapse } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import DashboardTable from "./DashboardTable";
+import DashboardTable from "./ProjectscoopTable";
 import OverviewWidgets from "./OverviewWidgets"; // Renamed for clarity, assuming it’s the same as DashboardWidget
 import JobsTable from "./JobsTable";
 //import "@fortawesome/fontawesome-free/css/all.min.css"; // For Font Awesome icons if needed
